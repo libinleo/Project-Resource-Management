@@ -56,34 +56,72 @@
         </div>
     </div>
 
-</body>
+
 <script>
 
-    function register(){
-        let user ={
-            fullname : document.getElementById("fullname").value,
-            username : document.getElementById("username").value,
-            email : document.getElementById("email").value,
-            password : document.getElementById("password").value
-        }
-        console.log(user)
-        
-        var request = new XMLHttpRequest();
-        request.onload = function () {
-        if (this.readyState === 4 && this.status === 200) {
-         console.log(this)
-        
-        }
-      }
+   function register() {
 
-      request.open("POST", `http://127.0.0.1:5000/register`);
-      request.setRequestHeader('Content-type', 'application/json; charset=UTF-8');
-      console.log(JSON.stringify(user))
-      // Sending the request to the server
-      request.send(JSON.stringify(user));
-      window.location.href= "login.html"
-   }
+        var fullname= document.getElementById("fullname").value
+
+        var username= document.getElementById("username").value
+
+        var email= document.getElementById("email").value
+
+        var password= document.getElementById("password").value
+
+      // console.log(user)
+
+      fetch("http://127.0.0.1:5000/register", {
+
+method: 'POST',
+
+headers: {
+
+  'Content-Type': 'application/json',
+
+},
+
+     
+
+body: JSON.stringify({
+
+  fullname:fullname,
+
+  username: username,
+
+  email:  email,
+
+  password: password})
+
+})
+
+.then((response) => {
+
+//   // console.log(response.json())
+
+         return response.json()})
+
+         window.location.href="login.html"
+
+
+//  .then((data)=>{
+
+//    console.log('Success:', data)})
+
+//  })
+
+ }
+
+// .catch((error)=>{
+
+
+
+//    console.log("error",error)
+
+//  })
 
 </script>
+
+</body>
 
 </html>

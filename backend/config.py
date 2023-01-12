@@ -1,4 +1,4 @@
-from backend.app import app
+from app import app
 from flaskext.mysql import MySQL
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 

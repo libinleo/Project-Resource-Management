@@ -3,7 +3,7 @@ import json
 from config import mydb
 from flask import jsonify
 from flask import flash, request
-from backend.app import app
+from app import app
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 from flask import render_template
 
@@ -46,38 +46,53 @@ def register():
 def login():
     try:
         json = request.json
-        print(json)
         username = json['username']
+
         password = json['password']
+
         print(username)
+
         if username and password and request.method == 'POST':
+
             conn = mydb.connect()
+
             cursor = conn.cursor(pymysql.cursors.DictCursor)
+
             sqlQuery="SELECT fullname FROM user WHERE username= '%s'  and password='%s'" % (username, password)
+
             data=cursor.execute(sqlQuery)
+
             print(data)
+
             if data==1:
+
                 access_token = create_access_token(identity=username)
+
                 conn.commit()
+
                 return jsonify(message='Login Successful', access_token=access_token),200
-                
-                
+
             else:
+
                 conn.commit()
+
                 return jsonify('Bad email or Password... Access Denied!'), 401
+
         else:
+
             return showMessage()
+
     except Exception as e:
+
         print(e)
+
         return 'Exception'
+
     finally:
+
         cursor.close()
+
         conn.close()
-
-
-            
-
-
 
 @app.errorhandler(404)
 def showMessage(error=None):
